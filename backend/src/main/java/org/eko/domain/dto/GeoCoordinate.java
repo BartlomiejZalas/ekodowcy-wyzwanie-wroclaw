@@ -7,14 +7,14 @@ import lombok.Value;
 @Value
 public class GeoCoordinate {
     @JsonProperty("latitude")
-    Long latitude;
+    double latitude;
 
     @JsonProperty("longitude")
-    Long longitude;
+    double longitude;
 
     @JsonCreator
-    public GeoCoordinate(@JsonProperty("latitude") Long latitude,
-                         @JsonProperty("longitude") Long longitude) {
+    public GeoCoordinate(@JsonProperty("latitude") double latitude,
+                         @JsonProperty("longitude") double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
