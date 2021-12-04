@@ -2,10 +2,14 @@ package org.eko.service;
 
 import lombok.RequiredArgsConstructor;
 import org.eko.domain.dto.CreateUserRequest;
+import org.eko.domain.dto.SchoolScoreView;
+import org.eko.domain.dto.UserScoreView;
 import org.eko.domain.dto.UserView;
 import org.eko.domain.mapper.UserViewMapper;
 import org.eko.domain.model.School;
+import org.eko.domain.model.SchoolScore;
 import org.eko.domain.model.User;
+import org.eko.domain.model.UserScore;
 import org.eko.repository.SchoolRepository;
 import org.eko.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -69,4 +76,10 @@ public class UserService implements UserDetailsService {
                 );
     }
 
+    public List<UserScoreView> getUsersScores() {
+        List<UserScore> userScoreList = userRepository.getUsersScore();
+        return userScoreList.stream()
+                .map(s -> new UserScoreView(s.getUserId(), s.getLogin(), s.getSchoolId(), s.getSchoolName(), s.getScore()))
+                .collect(Collectors.toList());
+    }
 }
