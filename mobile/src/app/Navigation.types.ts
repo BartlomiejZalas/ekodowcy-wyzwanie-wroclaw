@@ -13,6 +13,7 @@ export type StackParamList = {
   TrackStop: undefined;
   TrackDetails: { track: Tracks.Track };
   AddWarning: undefined;
+  TrackStarted: undefined;
 };
 
 export type DrawerStackParamList = {
