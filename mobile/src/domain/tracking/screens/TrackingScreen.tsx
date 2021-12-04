@@ -32,6 +32,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { WarningsContext } from '../../warnings/WarningsContext';
 import { Colors } from '../../../theme/Colors';
 import { ButtonSelector } from '../../../theme/components/ButtonSelector';
+import { NativeStackScreenProps } from 'react-native-screens/native-stack';
+import { AllScreens } from '../../../app/Navigation.types';
 
 const watchPositionOptions: GeoWatchOptions = {
   accuracy: {
@@ -65,7 +67,9 @@ const startForegroundService = async () => {
 
 const stopForegroundService = async () => VIForegroundService.stopService();
 
-export const TrackingScreen = () => {
+export const TrackingScreen = ({
+  navigation,
+}: NativeStackScreenProps<AllScreens, 'TrackStarted'>) => {
   const [path, setPath] = useState<Tracking.Location[]>([]);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [isTracking, setIsTracking] = useState(false);
@@ -76,7 +80,6 @@ export const TrackingScreen = () => {
   const { requestPermissions, hasLocationPermission, permissionsGranted } =
     useLocationPermissions();
 
-  const navigation = useNavigation();
   const { addTrack } = useContext(TracksContext);
   const { addWarning } = useContext(WarningsContext);
 
@@ -117,6 +120,8 @@ export const TrackingScreen = () => {
       e => console.log(e),
       watchPositionOptions,
     );
+
+    navigation.navigate('TrackStarted');
   };
 
   const reportWarning = () => {
@@ -137,7 +142,6 @@ export const TrackingScreen = () => {
       Geolocation.clearWatch(watchId.current);
       watchId.current = null;
       setIsTracking(false);
-      // @ts-ignore
       navigation.navigate('TrackStop');
       addTrack({
         id: Math.random(),

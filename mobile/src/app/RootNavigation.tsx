@@ -25,6 +25,7 @@ import { AddWarningScreen } from '../domain/warnings/screens/AddWarningScreen';
 import { BackButton } from '../theme/components/BackButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RankingScreen } from '../domain/ranking/screens/RankingScreen';
+import { TrackStartedScreen } from "../domain/tracking/screens/TrackStartedScreen";
 
 const Settings = () => {
   return (
@@ -140,6 +141,7 @@ export const RootNavigation = () => {
               screenOptions={{ presentation: 'modal', headerShown: false }}>
               <Stack.Screen name="TrackStop" component={TrackFinishedScreen} />
               <Stack.Screen name="AddWarning" component={AddWarningScreen} />
+              <Stack.Screen name="TrackStarted" component={TrackStartedScreen} />
             </Stack.Group>
             <Stack.Screen
               name="TrackDetails"
