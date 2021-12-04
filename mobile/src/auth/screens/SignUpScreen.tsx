@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../AuthContext';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Colors } from '../../theme/Colors';
@@ -7,20 +7,44 @@ import { StyledButton } from '../../theme/components/Button';
 import { Link } from '../../theme/components/Link';
 import { Selector } from '../../theme/components/Selector';
 import { SignupValidationStatus, validateSignupForm } from '../validation';
+import { SchoolsApi } from '../../api/SchoolsApi';
+import { AsyncStatus } from '../../api/types';
+import { Error } from '../../theme/components/Error';
+import { NativeStackScreenProps } from 'react-native-screens/native-stack';
+import { AllScreens } from '../../app/Navigation.types';
 
-export const SignUpScreen = () => {
+export const SignUpScreen = ({
+  navigation,
+}: NativeStackScreenProps<AllScreens, 'SignUp'>) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordRepeat, setPasswordRepeat] = useState('');
   const [schoolId, setSchoolId] = useState<number | null>(null);
+  const [items, setItems] = useState<Array<{ value: string; label: string }>>(
+    [],
+  );
+  const [status, setStatus] = useState<AsyncStatus>(AsyncStatus.LOADING);
 
   const [validationResult, setValidationResult] =
     useState<SignupValidationStatus>({ hasErrors: false });
 
   const { signUp } = React.useContext(AuthContext);
 
-  const submit = () => {
+  useEffect(() => {
+    const getSchools = async () => {
+      try {
+        const schools = await SchoolsApi.getSchools();
+        setItems(schools.map(s => ({ value: String(s.id), label: s.name })));
+        setStatus(AsyncStatus.LOADED);
+      } catch (e) {
+        setStatus(AsyncStatus.ERROR);
+      }
+    };
+    getSchools();
+  }, []);
+
+  const submit = async () => {
     const data = {
       username,
       email,
@@ -30,11 +54,15 @@ export const SignUpScreen = () => {
     };
     const validationResult = validateSignupForm(data);
     if (!validationResult.hasErrors) {
-      signUp({ ...data, schoolId: schoolId! });
+      await signUp({ ...data, schoolId: schoolId! });
     } else {
       setValidationResult(validationResult);
     }
   };
+
+  if (status === AsyncStatus.ERROR) {
+    return <Error />;
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -66,27 +94,15 @@ export const SignUpScreen = () => {
           error={validationResult.passwordRepeat}
           secureTextEntry
         />
-
         <Selector
           label="Szkoła"
-          placeholder="Wybierz szkołę"
+          placeholder={
+            status === AsyncStatus.LOADING ? 'Wczytywanie...' : 'Wybierz szkołę'
+          }
           value={schoolId ? String(schoolId) : null}
           onChange={v => setSchoolId(Number(v))}
           error={validationResult.schoolId}
-          items={[
-            { value: '1', label: 'Szkoła 1' },
-            { value: '2', label: 'Szkoła 2' },
-            { value: '3', label: 'Szkoła 3' },
-            { value: '4', label: 'Szkoła 4' },
-            { value: '5', label: 'Szkoła 5' },
-            { value: '6', label: 'Szkoła 6' },
-            { value: '7', label: 'Szkoła 11' },
-            { value: '8', label: 'Szkoła 12' },
-            { value: '9', label: 'Szkoła 13' },
-            { value: '10', label: 'Szkoła 22' },
-            { value: '11', label: 'Szkoła asdas' },
-            { value: '12', label: 'Szkoła 32' },
-          ]}
+          items={items}
         />
 
         <View style={styles.linksContainer}>

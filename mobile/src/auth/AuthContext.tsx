@@ -1,4 +1,7 @@
 import React, { createContext, useCallback, useReducer } from 'react';
+import { AsyncStorage } from 'react-native';
+import { AuthApi } from '../api/AuthApi';
+import { HttpClient } from "../api/AuthenticatedHttpClient";
 
 interface State {
   userToken: string | null;
@@ -24,7 +27,7 @@ interface Context {
 }
 
 type Actions =
-  | { type: 'RESTORE_TOKEN'; token: string; username: string }
+  | { type: 'RESTORE_TOKEN'; token: string | null; username: string | null }
   | { type: 'SIGN_IN'; token: string; username: string }
   | { type: 'SIGN_UP'; token: string; username: string }
   | { type: 'SIGN_OUT' };
@@ -87,38 +90,46 @@ const reducer = (prevState: State, action: Actions): State => {
 const AuthProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const restoreToken = useCallback(() => {
-    // userToken = await SecureStore.getItemAsync('userToken');
-    console.log('restoring token');
-    dispatch({
-      type: 'RESTORE_TOKEN',
-      token: 'dummy-auth-token',
-      username: 'dummyUser-name',
-    });
+  const restoreToken = useCallback(async () => {
+    const username = await AsyncStorage.getItem('username');
+    const token = await AsyncStorage.getItem('token');
+    if (username && token) {
+      HttpClient.initialize(token);
+      dispatch({ type: 'RESTORE_TOKEN', token: token, username: username });
+    } else {
+      dispatch({ type: 'RESTORE_TOKEN', token: null, username: null });
+    }
   }, []);
 
-  const signOut = useCallback(() => {
-    console.log('logout');
+  const signOut = useCallback(async () => {
+    await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('username');
+    HttpClient.clear();
     dispatch({ type: 'SIGN_OUT' });
   }, []);
 
   const signIn = useCallback(async ({ username, password }) => {
-    // In a production app, we need to send some data (usually username, password) to server and get a token
-    // We will also need to handle errors if sign in failed
-    // After getting token, we need to persist the token using `SecureStore`
-    // In the example, we'll use a dummy token
-    console.log('login', username, password);
-    dispatch({ type: 'SIGN_IN', token: 'nickName123', username });
+    const { token, login } = await AuthApi.login(username, password);
+    await AsyncStorage.setItem('token', token);
+    await AsyncStorage.setItem('username', login);
+    HttpClient.initialize(token);
+    dispatch({ type: 'SIGN_IN', token, username: login });
   }, []);
 
   const signUp = useCallback(
     async ({ username, password, schoolId, email }) => {
-      // In a production app, we need to send user data to server and get a token
-      // We will also need to handle errors if sign up failed
-      // After getting token, we need to persist the token using `SecureStore`
-      // In the example, we'll use a dummy token
-      console.log('register and login', username, password, schoolId, email);
-      dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token', username });
+      const { token, login } = await AuthApi.register({
+        login: username,
+        password,
+        rePassword: password,
+        schoolId,
+        email,
+        type: 'USER',
+      });
+      await AsyncStorage.setItem('token', token);
+      await AsyncStorage.setItem('username', login);
+      HttpClient.initialize(token);
+      dispatch({ type: 'SIGN_IN', token, username: login });
     },
     [],
   );

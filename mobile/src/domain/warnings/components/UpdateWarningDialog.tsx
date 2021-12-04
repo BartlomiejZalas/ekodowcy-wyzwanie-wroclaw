@@ -19,8 +19,8 @@ export const UpdateWarningDialog: React.FC<Props> = ({
   const [value, setValue] = useState(warning.description || '');
   const { updateWarningDescription } = useContext(WarningsContext);
 
-  const save = () => {
-    updateWarningDescription(warning.id, value);
+  const save = async () => {
+    await updateWarningDescription(warning.id, value);
     onClose();
   };
 

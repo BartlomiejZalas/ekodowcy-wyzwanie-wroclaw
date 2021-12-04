@@ -7,19 +7,35 @@ import { StyledButton } from '../../theme/components/Button';
 import { Link } from '../../theme/components/Link';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { AllScreens } from '../../app/Navigation.types';
+import { AsyncStatus } from '../../api/types';
+import { Error } from '../../theme/components/Error';
 
 export const SignInScreen = ({
   navigation,
 }: NativeStackScreenProps<AllScreens, 'SignIn'>) => {
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [status, setStatus] = React.useState<AsyncStatus>(AsyncStatus.LOADED);
 
   const { signIn } = React.useContext(AuthContext);
+
+  const submit = async () => {
+    try {
+      setStatus(AsyncStatus.LOADING);
+      await signIn({ username, password });
+      setStatus(AsyncStatus.LOADED);
+    } catch (e) {
+      setStatus(AsyncStatus.ERROR);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>EKOtrasa</Text>
       <Text style={styles.subtitle}>Bezpiecznie do szkoły</Text>
+      {status === AsyncStatus.ERROR && (
+        <Error text="Niepoprawny login lub hasło!" />
+      )}
       <TextField label="Login" value={username} onChangeText={setUsername} />
       <TextField
         label="Hasło"
@@ -31,7 +47,7 @@ export const SignInScreen = ({
         <StyledButton
           title="Zaloguj się"
           disabled={!username || !password}
-          onPress={() => signIn({ username, password })}
+          onPress={submit}
         />
       </View>
       <View style={styles.linksContainer}>

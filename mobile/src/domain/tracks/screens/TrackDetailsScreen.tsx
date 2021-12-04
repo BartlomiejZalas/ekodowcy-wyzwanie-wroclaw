@@ -3,6 +3,8 @@ import React from 'react';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { StackParamList } from '../../../app/Navigation.types';
 import MapView, { Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import { format } from 'date-fns';
+import { Colors } from '../../../theme/Colors';
 
 export const TrackDetailsScreen = (
   props: NativeStackScreenProps<StackParamList, 'TrackDetails'>,
@@ -29,7 +31,9 @@ export const TrackDetailsScreen = (
           justifyContent: 'space-between',
         }}>
         <Text>Data:</Text>
-        <Text>{new Date(track.timestamp).toLocaleDateString()}</Text>
+        <Text>
+          {format(new Date(track.startTimestamp), 'HH:mm dd-MM-yyyy')}
+        </Text>
       </View>
       <MapView
         provider={PROVIDER_GOOGLE}
@@ -40,7 +44,11 @@ export const TrackDetailsScreen = (
           latitudeDelta: 0.01,
           longitudeDelta: 0.01,
         }}>
-        <Polyline coordinates={track.path} strokeColor="blue" strokeWidth={5} />
+        <Polyline
+          coordinates={track.path}
+          strokeColor={Colors.primary}
+          strokeWidth={10}
+        />
       </MapView>
     </SafeAreaView>
   );

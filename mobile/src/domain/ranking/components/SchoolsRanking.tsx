@@ -1,21 +1,44 @@
 import { Podium } from './Podium';
-import { View } from 'react-native';
-import { RankingItem } from './RankingItem';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Divider } from '../../../theme/components/Divider';
-
-const scores = [
-  { name: 'School1', score: 123 },
-  { name: 'School2', score: 123 },
-  { name: 'School3', score: 123 },
-  { name: 'School4', score: 123 },
-  { name: 'School5', score: 123 },
-  { name: 'School6', score: 123 },
-  { name: 'School7', score: 123 },
-  { name: 'School8', score: 123 },
-];
+import { SchoolsApi } from '../../../api/SchoolsApi';
+import { AsyncStatus } from '../../../api/types';
+import { Error } from '../../../theme/components/Error';
+import { ActivityIndicator } from 'react-native';
+import { RankingItem as RankinItemType } from '../Ranking.model';
+import { RankingItem } from './RankingItem';
 
 export const SchoolsRanking = () => {
+  const [scores, setScores] = useState<RankinItemType[]>([]);
+  const [status, setStatus] = useState(AsyncStatus.LOADING);
+
+  useEffect(() => {
+    const fetchRanking = async () => {
+      try {
+        setStatus(AsyncStatus.LOADING);
+        const scores = await SchoolsApi.getRanking();
+        setScores(scores.map(s => ({ ...s, name: s.schoolName })));
+        setStatus(AsyncStatus.LOADED);
+      } catch (e) {
+        console.log(e);
+        setStatus(AsyncStatus.ERROR);
+      }
+    };
+    fetchRanking();
+  }, []);
+
+  if (status === AsyncStatus.ERROR) {
+    return <Error />;
+  }
+
+  if (status === AsyncStatus.LOADING) {
+    return <ActivityIndicator size="large" />;
+  }
+
+  if (scores.length < 3) {
+    return <Error text="Brak banych" />;
+  }
+
   const [first, second, third, ...rest] = scores;
   return (
     <>

@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 16,
     color: Colors.black,
+    maxWidth: 180,
+    textAlign: 'left',
   },
   score: {
     fontSize: 12,

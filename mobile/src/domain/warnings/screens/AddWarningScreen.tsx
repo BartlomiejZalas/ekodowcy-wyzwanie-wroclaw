@@ -32,8 +32,8 @@ export const AddWarningScreen = ({
     longitude: defaultRegion.longitude,
   });
 
-  const save = () => {
-    addWarning({
+  const save = async () => {
+    await addWarning({
       category,
       description,
       timestamp: new Date().getTime(),

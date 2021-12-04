@@ -9,8 +9,6 @@ export const useLocationPermissions = () => {
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
 
-    console.log(status);
-
     if (status === PermissionsAndroid.RESULTS.GRANTED) {
       setPermissionsGranted(true);
       return;

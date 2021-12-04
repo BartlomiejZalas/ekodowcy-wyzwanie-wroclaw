@@ -1,10 +1,13 @@
-import { Tracking } from '../tracking/Tracking.types';
+import { Tracking, TrackType } from '../tracking/Tracking.types';
 
 export declare namespace Tracks {
   interface Track {
     id: number;
     path: Tracking.Location[];
-    timestamp: number;
+    startTimestamp: number;
+    stopTimestamp: number;
+    score: number;
+    type: TrackType;
     distance: number;
   }
 }

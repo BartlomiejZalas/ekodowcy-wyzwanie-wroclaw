@@ -115,7 +115,6 @@ export const TrackingScreen = ({
       ({ coords: { latitude, longitude } }) => {
         const newLocation = { latitude, longitude };
         setPath(currentPath => [...currentPath, newLocation]);
-        console.log(newLocation);
       },
       e => console.log(e),
       watchPositionOptions,
@@ -124,17 +123,17 @@ export const TrackingScreen = ({
     navigation.navigate('TrackStarted');
   };
 
-  const reportWarning = () => {
+  const reportWarning = async () => {
     if (!location) {
       return;
     }
-    ToastAndroid.show('Zagrożenie zgłoszone', ToastAndroid.SHORT);
-    addWarning({
+    await addWarning({
       timestamp: new Date().getTime(),
       description: null,
-      category: 'Zgłoszenie w trakcie jazdy',
+      category: 'Zgłoszenie w trakcie trasy',
       ...location,
     });
+    ToastAndroid.show('Zagrożenie zgłoszone', ToastAndroid.SHORT);
   };
 
   const stopTracking = useCallback(async () => {
@@ -145,7 +144,10 @@ export const TrackingScreen = ({
       navigation.navigate('TrackStop');
       addTrack({
         id: Math.random(),
-        timestamp: new Date().getTime(),
+        stopTimestamp: new Date().getTime(),
+        startTimestamp: startTime!,
+        score: 1,
+        type,
         path,
         distance,
       });
@@ -168,7 +170,11 @@ export const TrackingScreen = ({
               image={require('../assets/point.png')}
             />
           )}
-          <Polyline coordinates={path} strokeColor="blue" strokeWidth={5} />
+          <Polyline
+            coordinates={path}
+            strokeColor={Colors.primary}
+            strokeWidth={10}
+          />
         </MapView>
         {!isTracking && (
           <View style={styles.trackTypeSelectorContainer}>

@@ -1,5 +1,6 @@
 import React, { createContext, useCallback, useReducer } from 'react';
 import { Tracks } from './Tracks.model';
+import { TracksApi } from '../../api/TracksApi';
 
 interface State {
   tracks: Tracks.Track[];
@@ -8,12 +9,12 @@ interface State {
 interface Context {
   tracks: Tracks.Track[];
   addTrack: (track: Tracks.Track) => void;
-  deleteTrack: (trackId: number) => void;
+  getTracks: () => void;
 }
 
 type Actions =
   | { type: 'ADD_TRACK'; track: Tracks.Track }
-  | { type: 'DELETE_TRACK'; trackId: number };
+  | { type: 'GET_TRACKS'; tracks: Tracks.Track[] };
 
 const notInitialized = () => {
   throw new Error('Context not initialized!');
@@ -23,7 +24,7 @@ const initialState: State = { tracks: [] };
 const defaultValue: Context = {
   tracks: [],
   addTrack: notInitialized,
-  deleteTrack: notInitialized,
+  getTracks: notInitialized,
 };
 
 const TracksContext = createContext<Context>(defaultValue);
@@ -35,10 +36,10 @@ const reducer = (prevState: State, action: Actions): State => {
         ...prevState,
         tracks: [...prevState.tracks, action.track],
       };
-    case 'DELETE_TRACK':
+    case 'GET_TRACKS':
       return {
         ...prevState,
-        tracks: prevState.tracks.filter(t => t.id !== action.trackId),
+        tracks: action.tracks,
       };
   }
 };
@@ -46,21 +47,20 @@ const reducer = (prevState: State, action: Actions): State => {
 const TracksContextProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addTrack = useCallback((trackData: Omit<Tracks.Track, 'id'>) => {
-    // const track = async saveTrackOnBacknd(trackData);
-    const track = { ...trackData, id: Math.floor(Math.random() * 1000) };
+  const addTrack = useCallback(async (trackData: Omit<Tracks.Track, 'id'>) => {
+    const track = await TracksApi.addTrack(trackData);
     dispatch({ type: 'ADD_TRACK', track });
   }, []);
 
-  const deleteTrack = useCallback((trackId: number) => {
-    // const track = async deleteTrackOnBacknd(trackData);
-    dispatch({ type: 'DELETE_TRACK', trackId });
+  const getTracks = useCallback(async () => {
+    const tracks = await TracksApi.getTracks();
+    dispatch({ type: 'GET_TRACKS', tracks });
   }, []);
 
   const value: Context = {
     tracks: state.tracks,
     addTrack,
-    deleteTrack,
+    getTracks,
   };
 
   return (
