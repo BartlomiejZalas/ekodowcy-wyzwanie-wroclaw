@@ -1,7 +1,6 @@
 package org.eko.domain.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
@@ -28,6 +27,7 @@ public class School {
 
     @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
+    @EqualsAndHashCode.Exclude
     private Set<User> users = new HashSet<>();
 
     public School(String name, Long poisId) {

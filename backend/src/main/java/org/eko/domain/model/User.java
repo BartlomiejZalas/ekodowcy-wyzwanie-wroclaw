@@ -1,9 +1,6 @@
 package org.eko.domain.model;
 
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,10 +46,12 @@ public class User implements UserDetails, Serializable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
+    @EqualsAndHashCode.Exclude
     private Set<Track> tracks = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
+    @EqualsAndHashCode.Exclude
     private Set<Alert> alerts = new HashSet<>();
 
     public User(String username, String password, String email, School school, String authorities) {

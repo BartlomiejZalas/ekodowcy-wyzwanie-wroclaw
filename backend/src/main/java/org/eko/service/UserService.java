@@ -44,11 +44,16 @@ public class UserService implements UserDetailsService {
         }
 
         String password = passwordEncoder.encode(request.getPassword());
-        School school = null;
+        final User user = new User(request.getLogin(), password, request.getEmail(), null, request.getType());
         if (request.getSchoolId() != null) {
-            school = schoolRepository.findById(request.getSchoolId()).orElse(null);
+            Optional<School> school = schoolRepository.findById(request.getSchoolId());
+            school.ifPresent(s -> {
+                s.getUsers().add(user);
+                user.setSchool(s);
+            });
+
         }
-        final User user = new User(request.getLogin(), password, request.getEmail(), school, request.getType());
+
 
         final User savedUser = userRepository.save(user);
 

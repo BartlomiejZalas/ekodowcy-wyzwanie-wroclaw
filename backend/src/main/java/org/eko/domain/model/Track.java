@@ -43,12 +43,13 @@ public class Track {
     @Column(name = "SCORE", nullable = false)
     private Long score;
 
-    public Track(Long distance, List<GeoCoordinate> path, Long startTime, Long endTime, Long score, User user) {
+    public Track(Long distance, List<GeoCoordinate> path, Long startTime, Long endTime, Long score, User user, TrackType type) {
         this.distance = distance;
         this.path = path;
         this.score = score;
         this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
+        this.type = type;
     }
 }

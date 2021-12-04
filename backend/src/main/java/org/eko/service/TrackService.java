@@ -6,6 +6,7 @@ import org.eko.domain.mapper.TrackViewMapper;
 import org.eko.domain.model.Track;
 import org.eko.domain.model.User;
 import org.eko.repository.TrackRepository;
+import org.eko.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,12 +21,14 @@ import java.util.stream.Collectors;
 public class TrackService {
     private final TrackRepository trackRepository;
     private final TrackViewMapper trackViewMapper;
+    private final UserRepository userRepository;
 
     @Transactional
     public TrackView create(TrackView trackView, User user) {
 
-        final Track track = new Track(trackView.getDistance(), trackView.getPath(), trackView.getStartTimestamp(), trackView.getStopTimestamp(), trackView.getScore(), user);
-
+        final Track track = new Track(trackView.getDistance(), trackView.getPath(), trackView.getStartTimestamp(), trackView.getStopTimestamp(), trackView.getScore(), null, trackView.getType());
+        user.getTracks().add(track);
+        track.setUser(user);
         final Track savedTrack = trackRepository.save(track);
 
         return trackViewMapper.toTrackView(savedTrack);

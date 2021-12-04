@@ -45,6 +45,7 @@ public class AlertService {
     @Transactional
     public AlertView create(AlertView alertView, User user) {
         final Alert alert = new Alert(alertView.getDescription(), alertView.getLongitude(), alertView.getLatitude(), alertView.getTimestamp(), user);
+        user.getAlerts().add(alert);
 
         final Alert savedAlert = alertRepository.save(alert);
 
