@@ -100,11 +100,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(format("%s/**", swaggerPath)).permitAll()
                 // Our public endpoints
                 .antMatchers("/public/**").permitAll()
-                .antMatchers("/h2-console/**").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/author/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/author/search").permitAll()
-//                .antMatchers(HttpMethod.GET, "/api/book/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/api/book/search").permitAll()
                 // Our private endpoints
                 .anyRequest().authenticated();
 
