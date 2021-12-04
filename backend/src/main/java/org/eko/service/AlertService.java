@@ -62,7 +62,7 @@ public class AlertService {
             throw new ValidationException(String.format("Alert with id %s not found.", id));
         }
         Alert alert = alertOptional.get();
-        if (!alert.getUser().getId().equals(id)){
+        if (!alert.getUser().getId().equals(user.getId())){
             throw new ValidationException(String.format("Alert with id %s cannot be updated by user %s.", id, user.getUsername()));
         }
 
