@@ -25,7 +25,12 @@ public class SchoolsApi {
 
     @GetMapping("/public/schools/ranking")
     public List<SchoolScoreView> getSchoolsRanking(@RequestParam(value = "limit", required = false) Integer limit) {
-        return schoolService.getSchoolsScores().stream().limit(limit).collect(Collectors.toList());
+        if (limit != null) {
+            return schoolService.getSchoolsScores().stream().limit(limit).collect(Collectors.toList());
+        } else {
+            return schoolService.getSchoolsScores();
+        }
+
     }
 
 
