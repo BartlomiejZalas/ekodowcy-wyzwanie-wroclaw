@@ -19,8 +19,9 @@ public class AlertApi {
 
     @GetMapping("/public/alerts")
     public List<AlertView> getAlerts(@RequestParam(name = "startTimestamp", required = false) Long startTimestamp,
-                                     @RequestParam(name = "endTimestamp", required = false) Long endTimestamp) {
-        return alertService.getAlerts(new SearchAlertQuery(startTimestamp, endTimestamp));
+                                     @RequestParam(name = "endTimestamp", required = false) Long endTimestamp,
+                                     @RequestParam(name = "category", required = false) String category) {
+        return alertService.getAlerts(new SearchAlertQuery(startTimestamp, endTimestamp, category));
     }
 
     @GetMapping("/alerts")

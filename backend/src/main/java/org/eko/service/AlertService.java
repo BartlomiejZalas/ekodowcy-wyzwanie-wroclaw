@@ -6,6 +6,7 @@ import org.eko.domain.dto.SearchAlertQuery;
 import org.eko.domain.dto.UpdateAlertRequest;
 import org.eko.domain.mapper.AlertViewMapper;
 import org.eko.domain.model.Alert;
+import org.eko.domain.model.AlertSpecification;
 import org.eko.domain.model.User;
 import org.eko.repository.AlertRepository;
 import org.springframework.stereotype.Service;
@@ -22,17 +23,18 @@ public class AlertService {
     private final AlertViewMapper alertViewMapper;
 
     public List<AlertView> getAlerts(SearchAlertQuery searchAlertQuery) {
-        List<Alert> alerts;
+        final AlertSpecification alertSpecification = new AlertSpecification(searchAlertQuery);
+        List<Alert> alerts = alertRepository.findAll(alertSpecification);
 
-        if (searchAlertQuery.getStartTimestamp() != null && searchAlertQuery.getEndTimestamp() != null){
-            alerts = alertRepository.findByTimeBetween(searchAlertQuery.getStartTimestamp(), searchAlertQuery.getEndTimestamp());
-        } else if (searchAlertQuery.getStartTimestamp() != null){
-            alerts = alertRepository.findByTimeGreaterThanEqual(searchAlertQuery.getStartTimestamp());
-        } else if (searchAlertQuery.getEndTimestamp() != null){
-            alerts = alertRepository.findByTimeLessThanEqual(searchAlertQuery.getEndTimestamp());
-        } else {
-            alerts = alertRepository.findAll();
-        }
+//        if (searchAlertQuery.getStartTimestamp() != null && searchAlertQuery.getEndTimestamp() != null){
+//            alerts = alertRepository.findByTimeBetween(searchAlertQuery.getStartTimestamp(), searchAlertQuery.getEndTimestamp());
+//        } else if (searchAlertQuery.getStartTimestamp() != null){
+//            alerts = alertRepository.findByTimeGreaterThanEqual(searchAlertQuery.getStartTimestamp());
+//        } else if (searchAlertQuery.getEndTimestamp() != null){
+//            alerts = alertRepository.findByTimeLessThanEqual(searchAlertQuery.getEndTimestamp());
+//        } else {
+//            alerts = alertRepository.findAll();
+//        }
 
         return alertViewMapper.toAlertView(alerts);
     }
@@ -44,8 +46,9 @@ public class AlertService {
 
     @Transactional
     public AlertView create(AlertView alertView, User user) {
-        final Alert alert = new Alert(alertView.getDescription(), alertView.getLongitude(), alertView.getLatitude(), alertView.getTimestamp(), user);
+        final Alert alert = new Alert(alertView.getDescription(), alertView.getLongitude(), alertView.getLatitude(), alertView.getTimestamp(), null, alertView.getCategory());
         user.getAlerts().add(alert);
+        alert.setUser(user);
 
         final Alert savedAlert = alertRepository.save(alert);
 

@@ -24,17 +24,21 @@ public class AlertView implements Serializable {
     @NonNull
     @JsonProperty("timestamp")
     Long timestamp;
+    @JsonProperty("category")
+    String category;
 
     @JsonCreator
     public AlertView(@JsonProperty("id") Long id,
                      @JsonProperty("description") String description,
                      @JsonProperty(value = "latitude", required = true) @NonNull double latitude,
                      @JsonProperty(value = "longitude", required = true) @NonNull double longitude,
-                     @JsonProperty(value = "timestamp", required = true) @NonNull Long timestamp) {
+                     @JsonProperty(value = "timestamp", required = true) @NonNull Long timestamp,
+                     @JsonProperty("category") String category) {
         this.id = id;
         this.description = description;
         this.latitude = latitude;
         this.longitude = longitude;
         this.timestamp = timestamp;
+        this.category = category;
     }
 }

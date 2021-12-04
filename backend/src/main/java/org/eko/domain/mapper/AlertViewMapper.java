@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @Component
 public class AlertViewMapper {
     public AlertView toAlertView(Alert a){
-        return new AlertView(a.getId(), a.getDescription(), a.getLatitude(), a.getLongitude(), a.getTime());
+        return new AlertView(a.getId(), a.getDescription(), a.getLatitude(), a.getLongitude(), a.getTime(), a.getCategory());
     }
 
     public List<AlertView> toAlertView(List<Alert> alerts){

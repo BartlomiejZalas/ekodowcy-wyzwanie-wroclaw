@@ -6,5 +6,6 @@ import lombok.Value;
 public class SearchAlertQuery {
     Long startTimestamp;
     Long endTimestamp;
+    String category;
 
 }

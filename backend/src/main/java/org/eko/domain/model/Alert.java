@@ -32,11 +32,15 @@ public class Alert {
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    public Alert(String description, double longitude, double latitude, Long time, User user) {
+    @Column(name = "CATEGORY")
+    private String category;
+
+    public Alert(String description, double longitude, double latitude, Long time, User user, String category) {
         this.description = description;
         this.longitude = longitude;
         this.latitude = latitude;
         this.time = time;
         this.user = user;
+        this.category = category;
     }
 }
