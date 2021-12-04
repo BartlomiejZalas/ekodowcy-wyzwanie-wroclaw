@@ -1,7 +1,7 @@
-import { TrackType } from '../Tracking.types';
+import { TrackType } from '../../domain/tracking/Tracking.types';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import React from 'react';
-import { Colors } from '../../../theme/Colors';
+import { Colors } from '../Colors';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface Props {
@@ -18,7 +18,7 @@ export const ButtonSelector = ({ value, onChange, items }: Props) => {
     const active = value === type;
     const backgroundColor = active ? Colors.primary : undefined;
     const color = active ? Colors.white : Colors.black;
-    const size = active ? 30 : 25;
+    const size = active ? 24 : 24;
     return (
       <TouchableOpacity
         onPress={() => onChange(type)}

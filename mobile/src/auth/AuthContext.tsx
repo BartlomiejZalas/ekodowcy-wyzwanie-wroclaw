@@ -4,12 +4,14 @@ interface State {
   userToken: string | null;
   isLoading: boolean;
   isSignout: boolean;
+  username: string | null;
 }
 
 interface Context {
   isLoading: boolean;
   isSignout: boolean;
   hasToken: boolean;
+  username: string | null;
   restoreToken: () => void;
   signIn: (data: { username: string; password: string }) => void;
   signUp: (data: {
@@ -22,8 +24,9 @@ interface Context {
 }
 
 type Actions =
-  | { type: 'RESTORE_TOKEN'; token: string }
-  | { type: 'SIGN_IN'; token: string }
+  | { type: 'RESTORE_TOKEN'; token: string; username: string }
+  | { type: 'SIGN_IN'; token: string; username: string }
+  | { type: 'SIGN_UP'; token: string; username: string }
   | { type: 'SIGN_OUT' };
 
 const notInitialized = () => {
@@ -34,8 +37,10 @@ const initialState: State = {
   isLoading: true,
   isSignout: false,
   userToken: null,
+  username: null,
 };
 const defaultValue: Context = {
+  username: null,
   hasToken: false,
   isSignout: false,
   isLoading: true,
@@ -54,12 +59,21 @@ const reducer = (prevState: State, action: Actions): State => {
         ...prevState,
         userToken: action.token,
         isLoading: false,
+        username: action.username,
       };
     case 'SIGN_IN':
       return {
         ...prevState,
         isSignout: false,
         userToken: action.token,
+        username: action.username,
+      };
+    case 'SIGN_UP':
+      return {
+        ...prevState,
+        isSignout: false,
+        userToken: action.token,
+        username: action.username,
       };
     case 'SIGN_OUT':
       return {
@@ -76,7 +90,11 @@ const AuthProvider: React.FC = ({ children }) => {
   const restoreToken = useCallback(() => {
     // userToken = await SecureStore.getItemAsync('userToken');
     console.log('restoring token');
-    dispatch({ type: 'RESTORE_TOKEN', token: 'dummy-auth-token' });
+    dispatch({
+      type: 'RESTORE_TOKEN',
+      token: 'dummy-auth-token',
+      username: 'dummyUser-name',
+    });
   }, []);
 
   const signOut = useCallback(() => {
@@ -90,7 +108,7 @@ const AuthProvider: React.FC = ({ children }) => {
     // After getting token, we need to persist the token using `SecureStore`
     // In the example, we'll use a dummy token
     console.log('login', username, password);
-    dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+    dispatch({ type: 'SIGN_IN', token: 'nickName123', username });
   }, []);
 
   const signUp = useCallback(
@@ -100,7 +118,7 @@ const AuthProvider: React.FC = ({ children }) => {
       // After getting token, we need to persist the token using `SecureStore`
       // In the example, we'll use a dummy token
       console.log('register and login', username, password, schoolId, email);
-      dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token' });
+      dispatch({ type: 'SIGN_IN', token: 'dummy-auth-token', username });
     },
     [],
   );
@@ -109,6 +127,7 @@ const AuthProvider: React.FC = ({ children }) => {
     hasToken: Boolean(state.userToken),
     isLoading: state.isLoading,
     isSignout: state.isSignout,
+    username: state.username,
     signIn,
     signUp,
     signOut,

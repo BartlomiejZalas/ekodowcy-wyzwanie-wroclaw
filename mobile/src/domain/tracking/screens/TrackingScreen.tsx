@@ -31,7 +31,7 @@ import { TracksContext } from '../../tracks/TracksContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { WarningsContext } from '../../warnings/WarningsContext';
 import { Colors } from '../../../theme/Colors';
-import { ButtonSelector } from '../components/ButtonSelector';
+import { ButtonSelector } from '../../../theme/components/ButtonSelector';
 
 const watchPositionOptions: GeoWatchOptions = {
   accuracy: {

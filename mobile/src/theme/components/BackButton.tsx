@@ -8,7 +8,7 @@ export const BackButton = () => {
   return (
     <Pressable onPress={() => navigation.goBack()}>
       <View style={{ padding: 16 }}>
-        <Icon name="keyboard-backspace" size={20} />
+        <Icon name="keyboard-backspace" size={24} />
       </View>
     </Pressable>
   );

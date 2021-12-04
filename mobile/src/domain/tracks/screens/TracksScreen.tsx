@@ -11,6 +11,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { NativeStackScreenProps } from 'react-native-screens/native-stack';
 import { DrawerStackParamList } from '../../../app/Navigation.types';
 import { TracksContext } from '../TracksContext';
+import { ScreenContainer } from '../../../theme/components/ScreenContainer';
+import { ScreenTitle } from '../../../theme/components/ScreenTitle';
 
 export const TracksScreen = ({
   navigation,
@@ -18,8 +20,8 @@ export const TracksScreen = ({
   const { tracks } = useContext(TracksContext);
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20 }}>
-      <Text>Trasy</Text>
+    <ScreenContainer>
+      <ScreenTitle text="Trasy" />
       <FlatList
         data={tracks}
         renderItem={({ item }) => {
@@ -70,6 +72,6 @@ export const TracksScreen = ({
         }}
         keyExtractor={t => String(t.id)}
       />
-    </SafeAreaView>
+    </ScreenContainer>
   );
 };
