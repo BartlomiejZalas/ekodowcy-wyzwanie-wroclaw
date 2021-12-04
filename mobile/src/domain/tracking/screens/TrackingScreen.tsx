@@ -27,11 +27,11 @@ import { Tracking, TrackType } from '../Tracking.types';
 import { calculateDistance } from '../Tracking.calculations';
 import VIForegroundService from '@voximplant/react-native-foreground-service';
 import { useNavigation } from '@react-navigation/native';
-import { TrackTypeSelector } from '../components/TrackTypeSelector';
 import { TracksContext } from '../../tracks/TracksContext';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { WarningsContext } from '../../warnings/WarningsContext';
 import { Colors } from '../../../theme/Colors';
+import { ButtonSelector } from '../components/ButtonSelector';
 
 const watchPositionOptions: GeoWatchOptions = {
   accuracy: {
@@ -168,7 +168,15 @@ export const TrackingScreen = () => {
         </MapView>
         {!isTracking && (
           <View style={styles.trackTypeSelectorContainer}>
-            <TrackTypeSelector type={type} onChange={setType} />
+            <ButtonSelector
+              value={type}
+              onChange={v => setType(v as TrackType)}
+              items={[
+                { type: TrackType.BIKE, iconName: 'bike' },
+                { type: TrackType.SCOOTER, iconName: 'scooter' },
+                { type: TrackType.WALK, iconName: 'walk' },
+              ]}
+            />
           </View>
         )}
         <View style={styles.menuContainer}>

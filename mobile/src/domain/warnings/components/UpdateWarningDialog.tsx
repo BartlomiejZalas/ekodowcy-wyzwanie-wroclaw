@@ -31,6 +31,7 @@ export const UpdateWarningDialog: React.FC<Props> = ({
         onChangeText={setValue}
         multiline
         placeholder="Dodaj opis zgłoszonego zagrożenia na trasie"
+        label="Opis"
       />
       <StyledButton title="Zapisz" onPress={save} />
     </Dialog>

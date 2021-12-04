@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../auth/AuthContext';
 import { CustomDrawer } from './CustomDrawer';
 import { Colors } from '../theme/Colors';
@@ -21,6 +21,8 @@ import { TrackDetailsScreen } from '../domain/tracks/screens/TrackDetailsScreen'
 import { WarningsScreen } from '../domain/warnings/screens/WarningsScreen';
 import { SignInScreen } from '../auth/screens/SignInScreen';
 import { SignUpScreen } from '../auth/screens/SignUpScreen';
+import { AddWarningScreen } from '../domain/warnings/screens/AddWarningScreen';
+import { BackButton } from '../theme/components/BackButton';
 
 const Settings = () => {
   return (
@@ -72,7 +74,7 @@ const DrawerNavigation = () => (
     <Drawer.Screen
       name="Tracks"
       component={TracksScreen}
-      options={{ title: 'Trasy' }}
+      options={{ title: 'Trasy', headerLeft: BackButton }}
     />
   </Drawer.Navigator>
 );
@@ -125,6 +127,7 @@ export const RootNavigation = () => {
             <Stack.Group
               screenOptions={{ presentation: 'modal', headerShown: false }}>
               <Stack.Screen name="TrackStop" component={TrackFinishedScreen} />
+              <Stack.Screen name="AddWarning" component={AddWarningScreen} />
             </Stack.Group>
             <Stack.Screen
               name="TrackDetails"

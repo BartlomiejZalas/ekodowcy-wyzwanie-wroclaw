@@ -1,19 +1,7 @@
 import React from 'react';
-import { StyleSheet, TextInput, TextInputProps } from 'react-native';
-import { Colors } from '../Colors';
+import { TextInputProps } from 'react-native';
+import { TextField } from './TextField';
 
-export const Textarea: React.FC<TextInputProps> = props => {
-  return <TextInput {...props} style={styles.input} />;
+export const Textarea: React.FC<TextInputProps & { label: string }> = props => {
+  return <TextField {...props} multiline />;
 };
-const styles = StyleSheet.create({
-  input: {
-    borderColor: Colors.darkGray,
-    borderWidth: 1,
-    borderRadius: 4,
-    padding: 8,
-    marginTop: 8,
-    marginBottom: 24,
-    flex: 1,
-    textAlignVertical: 'top',
-  },
-});

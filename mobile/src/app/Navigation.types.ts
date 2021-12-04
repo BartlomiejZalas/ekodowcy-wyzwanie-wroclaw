@@ -1,5 +1,4 @@
 import { Tracks } from '../domain/tracks/Tracks.model';
-import { Warnings } from '../domain/warnings/Warnings.model';
 
 export type MainTabsStackParamList = {
   Tracking: undefined;
@@ -13,7 +12,7 @@ export type StackParamList = {
   SignUp: undefined;
   TrackStop: undefined;
   TrackDetails: { track: Tracks.Track };
-  WarningDetails: { warning: Warnings.Warning };
+  AddWarning: undefined;
 };
 
 export type DrawerStackParamList = {

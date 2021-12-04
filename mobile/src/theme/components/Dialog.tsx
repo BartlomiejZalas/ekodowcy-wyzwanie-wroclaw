@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Colors } from '../Colors';
 
 interface Props {
@@ -17,14 +17,16 @@ export const Dialog: React.FC<Props> = ({
 }) => {
   return (
     <Modal visible={isOpen} transparent={true}>
-      <View style={styles.content}>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>{title}</Text>
-          <Pressable onPress={onClose}>
-            <Icon name="close" size={20} color={Colors.darkGray} />
-          </Pressable>
+      <View style={styles.spacing}>
+        <View style={styles.content}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>{title}</Text>
+            <Pressable onPress={onClose}>
+              <Icon name="close" size={28} color={Colors.darkGray} />
+            </Pressable>
+          </View>
+          {children}
         </View>
-        {children}
       </View>
     </Modal>
   );
@@ -42,8 +44,15 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     fontWeight: 'bold',
   },
-  content: {
+  spacing: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1,
+    backgroundColor: 'rgba(0,0,0, 0.5)',
+    paddingVertical: 32,
+  },
+  content: {
+    width: '85%',
     backgroundColor: Colors.white,
     margin: 32,
     borderRadius: 16,

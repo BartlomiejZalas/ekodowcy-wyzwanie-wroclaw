@@ -82,6 +82,10 @@ export const SignUpScreen = () => {
             { value: '6', label: 'Szkoła 6' },
             { value: '7', label: 'Szkoła 11' },
             { value: '8', label: 'Szkoła 12' },
+            { value: '9', label: 'Szkoła 13' },
+            { value: '10', label: 'Szkoła 22' },
+            { value: '11', label: 'Szkoła asdas' },
+            { value: '12', label: 'Szkoła 32' },
           ]}
         />
 
