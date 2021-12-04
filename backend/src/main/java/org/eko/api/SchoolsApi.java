@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 public class SchoolsApi {
     private final SchoolService schoolService;
 
-    @GetMapping("/publics/schools/ranking")
+    @GetMapping("/public/schools/ranking")
     public List<SchoolScoreView> getSchoolsRanking(@RequestParam(value = "limit", required = false) Integer limit) {
         return schoolService.getSchoolsScores().stream().limit(limit).collect(Collectors.toList());
     }
