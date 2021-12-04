@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class TrackViewMapper {
 
     public TrackView toTrackView(Track track) {
-        return new TrackView(track.getId(), track.getDistance(), track.getPath(), track.getStartTime(), track.getEndTime(), track.getType());
+        return new TrackView(track.getId(), track.getDistance(), track.getPath(), track.getStartTime(), track.getEndTime(), track.getType(), track.getScore());
     }
 
     public List<TrackView> toTrackView(List<Track> tracks) {

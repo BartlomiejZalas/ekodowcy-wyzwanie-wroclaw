@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class UserView {
+public class UserView implements Serializable {
+    private static final long serialVersionUID = -7988343716672170534L;
 
     @JsonProperty("id")
     private Long id;

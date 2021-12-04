@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 public interface TrackRepository extends JpaRepository<Track, Long> {
     List<Track> findTracksByUser(User user);
+    List<Track> findTracksByUserAndStartTimeGreaterThanEqualAndEndTimeLessThan(User user, Long startTime, Long endTime);
+
 }

@@ -39,8 +39,9 @@ public class User implements UserDetails, Serializable {
     @Column(name ="EMAIL",  nullable = false)
     private String email;
 
-    @Column(name ="SCHOOL_ID",  nullable = false)
-    private Long schoolId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="SCHOOL_ID")
+    private School school;
 
     @Column(name ="USER_ROLE",  nullable = false)
     @Getter(AccessLevel.NONE)
@@ -49,16 +50,16 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     private Set<Track> tracks = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-//    @Fetch(FetchMode.JOIN)
-//    private Set<Alert> alerts = new HashSet<>();
 
-    public User(String username, String password, String email, Long schoolId, String authorities) {
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Fetch(FetchMode.JOIN)
+    private Set<Alert> alerts = new HashSet<>();
+
+    public User(String username, String password, String email, School school, String authorities) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.schoolId = schoolId;
+        this.school = school;
         this.authorities = authorities;
     }
 
