@@ -1,6 +1,6 @@
-import {styled} from '@mui/material';
+import { styled } from '@mui/material';
 
-export const TopBar = styled('div')(({theme}) => ({
+export const TopBar = styled('div')({
   width: '100%',
   boxShadow: '0px 4px 8px 0px rgba(0, 0, 0, 0.2)',
   padding: '8px 24px',
@@ -8,4 +8,4 @@ export const TopBar = styled('div')(({theme}) => ({
   justifyContent: 'space-between',
   alignItems: 'center',
   zIndex: 1,
-}));
+});

@@ -1,5 +1,5 @@
-import {useEffect, useState} from 'react';
-import {Warning, WarningsApi} from '../../api/WarningsApi';
+import { useEffect, useState } from 'react';
+import { Warning, WarningsApi } from '../../api/WarningsApi';
 
 enum AsyncStatus {
   LOADING = 'LOADING',

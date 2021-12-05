@@ -1,7 +1,7 @@
 import logo from '../assets/wroclaw-logo-png-transparent.png';
-import {PersonPin, WarningAmber} from '@mui/icons-material';
+import { PersonPin, WarningAmber } from '@mui/icons-material';
 import React from 'react';
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -51,11 +51,11 @@ export const SideBar = () => {
       <img src={logo} alt="logo" className={classes.logo} />
       <div className={classes.tabs}>
         <div className={classes.tab}>
-          <PersonPin sx={{fontSize: 40}} />
+          <PersonPin sx={{ fontSize: 40 }} />
           Trasy
         </div>
         <div className={classes.tab + ' ' + classes.tabActive}>
-          <WarningAmber sx={{fontSize: 40}} />
+          <WarningAmber sx={{ fontSize: 40 }} />
           Zgłoszenia
         </div>
       </div>

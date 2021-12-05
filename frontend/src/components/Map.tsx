@@ -1,11 +1,11 @@
 import React from 'react';
-import {makeStyles} from '@mui/styles';
-import {Warning} from '../api/WarningsApi';
-import {CircularProgress} from '@mui/material';
-import {MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
-import {marker} from '../assets/marker';
+import { makeStyles } from '@mui/styles';
+import { Warning } from '../api/WarningsApi';
+import { CircularProgress } from '@mui/material';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { marker } from '../assets/marker';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   container: {
     height: '100%',
     width: '100%',
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
   },
-}));
+});
 
 const defaultCenter = {
   lat: 51.107883,
@@ -26,7 +26,7 @@ interface Props {
   isLoading: boolean;
 }
 
-export const Map: React.FC<Props> = ({warnings, isLoading}) => {
+export const Map: React.FC<Props> = ({ warnings, isLoading }) => {
   const classes = useStyles();
 
   return (

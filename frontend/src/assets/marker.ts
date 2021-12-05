@@ -1,4 +1,4 @@
-import {Icon, Point} from 'leaflet';
+import { Icon, Point } from 'leaflet';
 import markerImage from './marker.svg';
 
 export const marker = new Icon({

@@ -1,14 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import {SideBar} from '../../components/SideBar';
-import {makeStyles} from '@mui/styles';
-import {TopBar} from '../../components/TopBar';
-import {Map} from '../../components/Map';
-import {Warning, WarningsApi} from '../../api/WarningsApi';
-import {DownloadButton} from '../../components/DownloadButton';
-import {Counter} from '../../components/Counter';
-import {Title} from '../../components/Title';
-import {useWarningsFetching} from './useWarningsFetching';
-import {Alert} from '@mui/material';
+import React from 'react';
+import { SideBar } from '../../components/SideBar';
+import { makeStyles } from '@mui/styles';
+import { TopBar } from '../../components/TopBar';
+import { Map } from '../../components/Map';
+import { DownloadButton } from '../../components/DownloadButton';
+import { Counter } from '../../components/Counter';
+import { Title } from '../../components/Title';
+import { useWarningsFetching } from './useWarningsFetching';
+import { Alert } from '@mui/material';
 
 const useStyles = makeStyles({
   container: {
@@ -25,7 +24,7 @@ const useStyles = makeStyles({
 
 export const MainScreen: React.FC = () => {
   const classes = useStyles();
-  const {isLoading, isError, warnings} = useWarningsFetching();
+  const { isLoading, isError, warnings } = useWarningsFetching();
 
   return (
     <div className={classes.container}>
@@ -34,7 +33,7 @@ export const MainScreen: React.FC = () => {
         <TopBar>
           <Title />
         </TopBar>
-        <TopBar sx={{padding: 2}}>
+        <TopBar sx={{ padding: 2 }}>
           <Counter count={warnings.length} />
           <DownloadButton />
         </TopBar>

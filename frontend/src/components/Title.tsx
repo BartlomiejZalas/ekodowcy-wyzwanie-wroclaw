@@ -1,12 +1,12 @@
 import React from 'react';
-import {makeStyles} from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   title: {
     color: '#000',
     fontSize: 24,
   },
-}));
+});
 
 export const Title = () => {
   const classes = useStyles();

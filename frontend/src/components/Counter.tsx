@@ -4,6 +4,6 @@ interface Props {
   count: number;
 }
 
-export const Counter: React.FC<Props> = ({count}) => (
+export const Counter: React.FC<Props> = ({ count }) => (
   <div>Liczba zgłoszeń: {count}</div>
 );
