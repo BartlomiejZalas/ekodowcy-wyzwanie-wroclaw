@@ -7,7 +7,7 @@ interface Props {
 }
 
 export const Error: React.FC<Props> = ({
-  text = 'Cos poszło nie tak! Prosimy spróbować później.',
+  text = 'Coś poszło nie tak! Prosimy spróbować później.',
 }) => (
   <View style={styles.container}>
     <Text style={styles.text}>{text}</Text>

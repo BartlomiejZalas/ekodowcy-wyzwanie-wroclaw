@@ -1,15 +1,16 @@
 import React from 'react';
-import {useState} from 'react';
-import {Button} from '@mui/material';
+import {MainScreen} from './pages/main/MainScreen';
+import {CssBaseline, ThemeProvider} from '@mui/material';
+import {getTheme} from './theme/theme';
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
-    <div>
-      <Button variant="outlined" onClick={() => setCount(c => c + 1)}>
-        Hello World {count}
-      </Button>
-    </div>
+    <>
+      <ThemeProvider theme={getTheme()}>
+        <CssBaseline />
+        <MainScreen />
+      </ThemeProvider>
+    </>
   );
 }
 
